@@ -68,11 +68,14 @@ jobs:
     - name: Build
       run: |
         cabal update
-        cabal build --project-file=cabal.project.ci --enable-tests --enable-benchmarks --write-ghc-environment-files=always
+        cabal build --project-file=cabal.project.ci
 
+    # Testing on Windows is a bit complicated and left for future work.
     - name: Test
       run: |
-        cabal test --project-file=cabal.project.ci all
+        cabal install --project-file=cabal.project.ci --installdir bin
+        ./test.sh
+      if: runner.os != 'Windows'
 
     - name: Haddock
       # Run haddock for all components
@@ -105,8 +108,8 @@ jobs:
 
     - name: Build
       run: |
-        stack build --system-ghc --test --bench --no-run-tests --no-run-benchmarks --ghc-options '-Werror' --haddock --no-haddock-deps
+        stack build --system-ghc --ghc-options '-Werror' --haddock --no-haddock-deps --copy-bins --local-bin-path bin
 
     - name: Test
       run: |
-        stack test --system-ghc
+        ./test.sh

@@ -1,0 +1,13 @@
+# SPDX-FileCopyrightText: 2020 Serokell <https://serokell.io>
+#
+# SPDX-License-Identifier: MPL-2.0
+
+# Build tools
+## Stack
+.stack-work/
+stack.yaml.lock # there is only `base` dependency, so I don't think we need to commit this file
+
+## Cabal
+dist-newstyle/
+.ghc.environment.*
+cabal.project.local
